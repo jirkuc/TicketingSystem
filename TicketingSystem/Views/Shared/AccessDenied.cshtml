@@ -1,0 +1,10 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Access Denied";
+}
+<h1 class="text-danger">@ViewData["Title"]</h1>
+<p>You were not authorised to view this content!</p>
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary my-2">Back</a>
+@if (User?.Identity?.IsAuthenticated ?? false) {
+    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a>
+}

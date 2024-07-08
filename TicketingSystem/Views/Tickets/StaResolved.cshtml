@@ -1,0 +1,114 @@
+﻿@using TicketingSystem.Enums
+@using TicketingSystem.DTO
+@model IEnumerable<TicketDTO>
+
+@{
+    ViewData["Title"] = "List of RESOLVED Tickets";
+}
+
+<h1>@ViewData["Title"]</h1>
+<section>
+    <hr />
+    <div class="btn-group my-1 mb-2 me-2">
+        <a asp-action="Create" class="btn btn-outline-success">Create New Ticket</a>
+    </div>
+    <div class="btn-group my-1 mb-2 me-2">
+        <a asp-action="StaNew" class="btn btn-success">New</a>
+        <a asp-action="StaWorking" class="btn btn-primary">Working</a>
+    </div>
+    <div class="btn-group my-1 mb-2 me-2">
+        <a asp-action="StaCustomer" class="btn btn-warning">Customer</a>
+    </div>
+    <div class="btn-group my-1 mb-2 me-2">
+        <a asp-action="StaResolved" class="btn btn-outline-info">Resolved</a>
+        <a asp-action="StaClosed" class="btn btn-danger">Closed</a>
+        <a asp-action="StaVoid" class="btn btn-secondary">Void</a>
+    </div>
+    <div class="btn-group my-1 mb-2 me-2">
+        <a asp-action="Index" class="btn btn-outline-dark">All Tickets</a>
+    </div>
+    <hr />
+</section>
+<div class="overflow-auto" style="max-height: 75vh">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Ticket Nr
+                </th>
+                <th>
+                    Customer Name
+                </th>
+                <th>
+                    Problem Description
+                </th>
+                <th>
+                    Latest Status
+                </th>
+                <th>
+                    Created Date
+                </th>
+                <th>
+                    Priority
+                </th>
+                <th>
+                    Report Source
+                </th>
+                <th>
+                    Current State
+                </th>
+                <th>
+                    Ticket Time
+                </th>
+                <th>
+                    Last Update Date
+                </th>
+                <th>
+                    Update By Role
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                @if (item.CustomerName.ToLower().Equals(User.Identity.Name.ToLower()) || item.CreatedByUserName.ToLower().Equals(User.Identity.Name.ToLower()) || !User.IsInRole("CUSTOMER")) {
+
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary"> @item.Id </a>
+                        </td>
+                        <td>
+                            @item.CustomerName
+                        </td>
+                        <td>
+                            @item.ProblemDescription
+                        </td>
+                        <td>
+                            @item.LatestStatusComment
+                        </td>
+                        <td>
+                            @item.CreatedDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @item.Priority
+                        </td>
+                        <td>
+                            @item.ReportSource
+                        </td>
+                        <td>
+                            @item.TicketState
+                        </td>
+                        <td>
+                            @item.DisplayOutageTime
+                        </td>
+                        <td>
+                            @item.LastModifiedDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @item.LastModifiedByRoleName
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

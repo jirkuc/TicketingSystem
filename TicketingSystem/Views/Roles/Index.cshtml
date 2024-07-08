@@ -1,0 +1,51 @@
+﻿@model IEnumerable<AppRole>
+
+@{
+    ViewData["Title"] = "List of Roles";
+}
+
+<h1>List of Roles</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">Create New Role</a>
+</p>
+<div class="row overflow-auto" style="max-height: 75vh">
+    <div class="col-xxl-7">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Role Name
+                    </th>
+                    <th>
+                        Create Date
+                    </th>
+                    <th>
+                        Last Update Date
+                    </th>
+                    <th>
+                        Is Active
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary"> @item.NormalizedName </a>
+                        </td>
+                        <td>
+                            @item.CreateDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @item.UpdateDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @item.IsActive
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

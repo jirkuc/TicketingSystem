@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - jirkuc simpleTicketS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TicketingSystem.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+
+</head>
+<body>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    jirkuc
+                    <img src="~/img/stickets.svg" alt="jirkuc simpleTicketS logo" width="32" height="32" />
+                    simpleTicketS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated) {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                            </li>
+                            @if (User.IsInRole("ADMIN")) {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    @if (User.Identity.IsAuthenticated) {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Create","Tickets")" class="btn btn-success btn-sm text-light overflow-hidden my-2 me-3" style="min-width: 100px">Create Ticket</a>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Tickets" asp-action="Details" method="get" class="d-flex input-group-sm my-2 me-3" role="search">
+                                    <input name="id" class="form-control me-2" type="search" placeholder="Ticket number" aria-label="Search" style="min-width: 120px; max-width: 150px" />
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+                            </li>
+
+                        </ul>
+                    }
+                    @if (User?.Identity?.IsAuthenticated ?? false) {
+                        <div class="nav-item mt-2 mb-1 me-2 text-sm-center">
+                            User: <strong> @User.Identity.Name </strong>
+                        </div>
+                        <div>
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-sm my-1">Logout</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="mt-5 pt-5">
+        <div class="container-fluid px-5">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </main>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - jirkuc Simple Ticketing System - <a asp-area="" asp-controller="Home" asp-action="Help">Help</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

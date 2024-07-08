@@ -1,0 +1,101 @@
+﻿@using TicketingSystem.DTO
+@model TicketDTO
+
+@{
+    ViewData["Title"] = $"Modify Ticket Nr. {@Model.Id}";
+    var customers = ViewBag.CustomerName as List<AppUser>;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<section>
+    <h4>@Model.CustomerName | @Model.TicketState | @Model.Priority | @Model.DisplayOutageTime</h4>
+    <hr />
+    <div class="btn-group my-1 me-2">
+        @if (!(User.IsInRole("CUSTOMER") || Model.ClosedFlag)) {
+            <a asp-action="StartWork" asp-route-id="@Model?.Id" class="btn btn-success">Start Work</a>
+        }
+        <a asp-action="Comment" asp-route-id="@Model?.Id" class="btn btn-primary">Add Comment</a>
+        @if (!(User.IsInRole("CUSTOMER") || Model.ClosedFlag)) {
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-primary">Modify Ticket</a>
+        }
+    </div>
+    @if (!(User.IsInRole("CUSTOMER") || Model.ClosedFlag)) {
+        <div class="btn-group my-1 me-2">
+            <a asp-action="CustomerTime" asp-route-id="@Model?.Id" class="btn btn-warning">Wait For Customer</a>
+        </div>
+        <div class="btn-group my-1 me-2">
+            <a asp-action="Resolve" asp-route-id="@Model?.Id" class="btn btn-info">Resolve</a>
+            <a asp-action="Close" asp-route-id="@Model?.Id" class="btn btn-danger">Close Ticket</a>
+            <a asp-action="VoidTicket" asp-route-id="@Model?.Id" class="btn btn-secondary">Void Ticket</a>
+        </div>
+    }
+    <div class="btn-group my-1 me-2">
+        <a asp-action="Details" asp-route-id="@Model?.Id" class="btn btn-dark">Details</a>
+        <a asp-action="Index" class="btn btn-dark">Back to List</a>
+    </div>
+    <hr />
+</section>
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" class="form-control" />
+            <input type="hidden" asp-for="TicketState" class="form-control" />
+            <input type="hidden" asp-for="CurrentActivityNumber" />
+            <input type="hidden" asp-for="ClosedFlag" />
+            <input type="hidden" asp-for="ClosedDate" class="form-control" />
+            <input type="hidden" asp-for="LastModifiedDate" class="form-control" />
+            <input type="hidden" asp-for="OutageTime" class="form-control" />
+            <input type="hidden" asp-for="LatestStatusComment" class="form-control" />
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input list="customer-names" asp-for="CustomerName" class="form-control"></input>
+                @if (customers != null) {
+                    <datalist id="customer-names">
+                        @foreach (var customer in customers) {
+                            <option value="@customer.NormalizedUserName"></option>
+                        }
+                    </datalist>
+                }
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProblemDescription" class="control-label"></label>
+                <textarea asp-for="ProblemDescription" class="form-control" />@Model.ProblemDescription</textarea>
+                <span asp-validation-for="ProblemDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <select asp-for="Priority" asp-items="ViewBag.Priority" class="form-control"></select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReportSource" class="control-label"></label>
+                <select asp-for="ReportSource" asp-items="ViewBag.ReportSource" class="form-control"></select>
+                <span asp-validation-for="ReportSource" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4 my-3">
+            <div class="form-group">
+                <label for="StatusComment" class="control-label"><strong>Status Comment:</strong></label>
+                <textarea id="StatusComment" name="StatusComment" class="form-control" rows="7" required /></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Modify Ticket" class="btn btn-primary my-3" />
+        </div>
+    </div>
+</form>
+
+<div class="my-3">
+    <a asp-action="Details" asp-route-id="@Model?.Id" class="btn btn-outline-primary">Back to Details</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

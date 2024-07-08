@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @(char.ToUpper(Model[0]) + Model.Substring(1).ToLower())</h1>
+    <p>
+        <img src="~/img/stickets.svg" alt="jirkuc simpleTicketS logo" width="200" height="200" />
+    </p>
+    <p>
+        simple Ticketing System by jirkuc...
+    </p>
+    @if (User?.Identity?.IsAuthenticated ?? false) {
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-danger my-2">Logout</a>
+    }
+</div>

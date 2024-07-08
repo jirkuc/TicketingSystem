@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Help";
+}
+<h1>@ViewData["Title"] - Introduction & How to use this app</h1>
+
+<p>
+    jirkuc
+    <img src="~/img/stickets.svg" alt="jirkuc simpleTicketS logo" width="20" height="20" />
+    simple TicketS is a ticketing system to keep track of incidents and activities during their life.
+</p>
+<p>
+    To use this app <a asp-area="" asp-controller="Home" asp-action="Index">log-in</a> either as:
+    <ul>
+        <li>
+            Customer (username: petr)<br />
+            - rights to view and edit own account details;<br />
+            - rights to view tickets created by or for this paricular customer;<br />
+            - rights to create a ticket;<br />
+            - rights to add comments on these tickets;<br />
+            - cannot see internal comments on tickets.
+        </li>
+        <li>
+            Technician (username: bob)<br />
+            - rights to view and edit own account details;<br />
+            - rights to view tickets;<br />
+            - rights to create and edit tickets;<br />
+            - rights to add activities on these tickets.
+        </li>
+        </li>
+        <li>
+            Admin (username: admin)<br />
+            - rights to view and edit accounts;<br />
+            - rights to view and edit roles;<br />
+            - rights to view tickets;<br />
+            - rights to create and edit tickets;<br />
+            - rights to add activities on these tickets.
+        </li>
+    </ul>
+    The password consists of the first four letters of the alphabet (with the first letter capitalised), the first four digits (starting with 1) and period at the end.
+</p>
+<p>
+    The application was created as a self-made project during the
+    <a href="https://kurzy.vsb.cz/rekval-kurzy/programovani.php" target="_blank">Object Oriented Programming course on VŠB-TU Ostrava</a>
+    using ASP.NET Core MVC, Entity Framework (to deal with the data stored in SQLite database) and Identity Framework (for an app-user
+    authentication and authorization).
+</p>
+

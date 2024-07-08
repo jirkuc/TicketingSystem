@@ -1,0 +1,119 @@
+﻿@using TicketingSystem.Enums
+@using TicketingSystem.DTO
+@model TicketDTO
+
+@{
+    ViewData["Title"] = $"Ticket Nr. {@Model.Id} Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <section>
+        <h4>@Model.CustomerName | @Model.TicketState | @Model.Priority | @Model.DisplayOutageTime</h4>
+        <hr />
+        <div class="btn-group my-1 me-2">
+            @if (!(User.IsInRole("CUSTOMER") || Model.ClosedFlag)) {
+                <a asp-action="StartWork" asp-route-id="@Model?.Id" class="btn btn-success">Start Work</a>
+            }
+            <a asp-action="Comment" asp-route-id="@Model?.Id" class="btn btn-primary">Add Comment</a>
+            @if (!(User.IsInRole("CUSTOMER") || Model.ClosedFlag)) {
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Modify Ticket</a>
+            }
+        </div>
+        @if (!(User.IsInRole("CUSTOMER") || Model.ClosedFlag)) {
+            <div class="btn-group my-1 me-2">
+                <a asp-action="CustomerTime" asp-route-id="@Model?.Id" class="btn btn-warning">Wait For Customer</a>
+            </div>
+            <div class="btn-group my-1 me-2">
+                <a asp-action="Resolve" asp-route-id="@Model?.Id" class="btn btn-info">Resolve</a>
+                <a asp-action="Close" asp-route-id="@Model?.Id" class="btn btn-danger">Close Ticket</a>
+                <a asp-action="VoidTicket" asp-route-id="@Model?.Id" class="btn btn-secondary">Void Ticket</a>
+            </div>
+        }
+        <div class="btn-group my-1 me-2">
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-dark">Details</a>
+            <a asp-action="Index" class="btn btn-dark">Back to List</a>
+        </div>
+        <hr />
+    </section>
+    <div class="row">
+        <section class="col-lg-5 px-4">
+            <dl class="row">
+                <dt class="col-lg-4">
+                    Problem Description:
+                </dt>
+                <dd class="col-lg-8">
+                    @Model.ProblemDescription
+                </dd>
+                <dt class="col-lg-4">
+                    Created Date:
+                </dt>
+                <dd class="col-lg-8">
+                    @Model.CreatedDate
+                </dd>
+                <dt class="col-lg-4">
+                    Report Source:
+                </dt>
+                <dd class="col-lg-8">
+                    @Model.ReportSource
+                </dd>
+                <hr />
+                <dt class="col-lg-4">
+                    Latest Status Updade:
+                </dt>
+                <dd class="col-lg-8">
+                    @Model.LatestStatusComment <br />
+                    By @Model.LastModifiedByUserName / @Model.LastModifiedByRoleName at @Model.LastModifiedDate <br />
+                    Activity Nr. @Model.CurrentActivityNumber
+                </dd>
+                <hr />
+                @if (Model.ClosedFlag) {
+                    <dt class="col-lg-4">
+                        Closed Date:
+                    </dt>
+                    <dd class="col-lg-8">
+                        @Model.ClosedDate
+                    </dd>
+                    <hr />
+                }
+            </dl>
+        </section>
+        <section class="col-lg-7">
+            <h5>Activity List</h5>
+            <hr />
+            <div class="overflow-auto" style="max-height: 60vh">
+                @foreach (var activity in Model.TicketActivities) {
+                    if (!User.IsInRole("CUSTOMER") || activity.InternalFlag == InternalFlag.CUSTOMER) {
+                        <div class="px-2">
+                            <p>
+                                Nr. @activity.ActivityNumber |
+                                <strong> @activity.ActivityName </strong>
+                                @if (activity.ActivityName.Equals("COMMENT") && !User.IsInRole("CUSTOMER")) {
+                                    <span> (@activity.InternalFlag) </span>
+                                }
+
+                                |
+                                @activity.ActivityDate |
+                                role <strong> @activity.ActivityRoleName </strong> |
+                                user @activity.ActivityUserName |
+                                state <strong> @activity.NewTicketState </strong> (old state @activity.OldTicketState)
+                            </p>
+                            <p>
+                                <strong>Comment:</strong><br />
+
+
+                                @activity.StatusComment
+                            </p>
+                            Ticket time:<strong> @activity.DisplayOutageTime</strong>
+                            <hr />
+                        </div>
+                    }
+                }
+            </div>
+        </section>
+    </div>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+</div>

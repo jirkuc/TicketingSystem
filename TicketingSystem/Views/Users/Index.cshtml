@@ -1,0 +1,72 @@
+﻿@using TicketingSystem.ViewModels
+@model IEnumerable<AppUserViewModel>
+
+@{
+    ViewData["Title"] = "List of Users";
+}
+
+<h1>List of Users</h1>
+@if (User.IsInRole("ADMIN")) {
+    <p>
+        <a asp-action="Create" class="btn btn-outline-success">Create New User</a>
+    </p>
+}
+<div class="overflow-auto" style="max-height: 75vh">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    User Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Phone Number
+                </th>
+                <th>
+                    Create Date
+                </th>
+                <th>
+                    Last Update Date
+                </th>
+                <th>
+                    Default Role
+                </th>
+                <th>
+                    Is Active
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                @if (item.UserName.Equals(User.Identity.Name) || User.IsInRole("ADMIN")) {
+
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary"> @item.NormalizedUserName </a>
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.PhoneNumber
+                        </td>
+                        <td>
+                            @item.CreateDate
+                        </td>
+                        <td>
+                            @item.UpdateDate
+                        </td>
+                        <td>
+                            @item.DefaultRoleName
+                        </td>
+                        <td>
+                            @item.IsActive
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
