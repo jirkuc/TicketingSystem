@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/TicketingSystem/Properties/ServiceDependencies/jirkucSTicketS - FTP/profile.arm.json
+/TicketingSystem/Properties/ServiceDependencies/jirkucSTicketS - Web Deploy/profile.arm.json
+/TicketingSystem/appsettings.json

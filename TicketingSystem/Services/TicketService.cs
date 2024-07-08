@@ -279,6 +279,7 @@ public class TicketService {
         }
         if (changeCount > 0) {
             ticketToUpdate.LatestStatusComment += modifyStatusComment.ToString();
+            statusComment += modifyStatusComment.ToString();
         }
 
         _dbContext.ITS_Tickets.Update(ticketToUpdate);
