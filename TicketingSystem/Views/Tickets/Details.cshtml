@@ -44,7 +44,7 @@
                     Problem Description:
                 </dt>
                 <dd class="col-lg-8">
-                    @Model.ProblemDescription
+                    <span style="white-space:pre-line;">@Model.ProblemDescription</span>
                 </dd>
                 <dt class="col-lg-4">
                     Created Date:
@@ -63,7 +63,7 @@
                     Latest Status Updade:
                 </dt>
                 <dd class="col-lg-8">
-                    @Model.LatestStatusComment <br />
+                    <span style="white-space:pre-line;">@Model.LatestStatusComment</span> <br />
                     By @Model.LastModifiedByUserName / @Model.LastModifiedByRoleName at @Model.LastModifiedDate <br />
                     Activity Nr. @Model.CurrentActivityNumber
                 </dd>
@@ -102,8 +102,8 @@
                             <p>
                                 <strong>Comment:</strong><br />
 
-
-                                @activity.StatusComment
+                                <span style="white-space:pre-line;">@activity.StatusComment</span>
+                                
                             </p>
                             Ticket time:<strong> @activity.DisplayOutageTime</strong>
                             <hr />

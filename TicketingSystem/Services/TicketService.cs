@@ -242,37 +242,29 @@ public class TicketService {
         Ticket ticketToUpdate = await TicketModifications(id, authenticatedUserId, statusComment);
 
         StringBuilder modifyStatusComment = new StringBuilder();
-        modifyStatusComment.AppendLine($"\r\n\r\n//// ticket Modifications: ////");
+        modifyStatusComment.AppendLine($"\r\n\r\n//// Ticket Modifications: ////");
         int changeCount = 0;
         if (!(ticketToUpdate.CustomerName.ToUpper()).Equals(ticketDTO.CustomerName.ToUpper())) {
-            modifyStatusComment.AppendLine("// Old Customer Name: //");
-            modifyStatusComment.AppendLine(ticketToUpdate.CustomerName);
-            modifyStatusComment.AppendLine("// New Customer Name: //");
-            modifyStatusComment.AppendLine(ticketDTO.CustomerName);
+            modifyStatusComment.AppendLine($"// Old Customer Name: {ticketToUpdate.CustomerName} //");
+            modifyStatusComment.AppendLine($"// New Customer Name: {ticketDTO.CustomerName} //");
             ticketToUpdate.CustomerName = ticketDTO.CustomerName.ToUpper();
             changeCount++;
         }
         if (!(ticketToUpdate.ProblemDescription).Equals(ticketDTO.ProblemDescription)) {
-            modifyStatusComment.AppendLine("// Old Problem Description: //");
-            modifyStatusComment.AppendLine(ticketToUpdate.ProblemDescription);
-            modifyStatusComment.AppendLine("// New Problem Description: //");
-            modifyStatusComment.AppendLine(ticketDTO.ProblemDescription);
+            modifyStatusComment.AppendLine($"// Old Problem Description: {ticketToUpdate.ProblemDescription}//");
+            modifyStatusComment.AppendLine($"// New Problem Description: {ticketDTO.ProblemDescription} //");
             ticketToUpdate.ProblemDescription = ticketDTO.ProblemDescription;
             changeCount++;
         }
         if (ticketToUpdate.Priority != ticketDTO.Priority) {
-            modifyStatusComment.AppendLine("// Old Priority: //");
-            modifyStatusComment.AppendLine(ticketToUpdate.Priority.ToString());
-            modifyStatusComment.AppendLine("// New Priority: //");
-            modifyStatusComment.AppendLine(ticketDTO.Priority.ToString());
+            modifyStatusComment.AppendLine($"// Old Priority: {ticketToUpdate.Priority.ToString()} //");
+            modifyStatusComment.AppendLine($"// New Priority: {ticketDTO.Priority.ToString()} //");
             ticketToUpdate.Priority = ticketDTO.Priority;
             changeCount++;
         }
         if (ticketToUpdate.ReportSource != ticketDTO.ReportSource) {
-            modifyStatusComment.AppendLine("// Old Report Source: //");
-            modifyStatusComment.AppendLine(ticketToUpdate.ReportSource.ToString());
-            modifyStatusComment.AppendLine("// New Report Source: //");
-            modifyStatusComment.AppendLine(ticketDTO.ReportSource.ToString());
+            modifyStatusComment.AppendLine($"// Old Report Source: {ticketToUpdate.ReportSource.ToString()} //");
+            modifyStatusComment.AppendLine($"// New Report Source: {ticketDTO.ReportSource.ToString()} //");
             ticketToUpdate.ReportSource = ticketDTO.ReportSource;
             ticketToUpdate.ReportSourceName = ticketDTO.ReportSource.ToString();
             changeCount++;
